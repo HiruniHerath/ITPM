@@ -50,7 +50,7 @@ export default function home() {
             </Row>
 
             <br></br>
-            <div style={{ height: "60px", backgroundColor: "#005E2C" }}></div>
+            <div style={{ height: "60px", backgroundColor: "#003A1B" }}></div>
 
 
         </div>

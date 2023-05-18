@@ -4,11 +4,11 @@ import Container from 'react-bootstrap/Container';
 import Nav from '../components/nav'
 
 
-export default function CreatepostWild() {
+export default function Createprofile() {
     return (
         <div>
             <Nav></Nav>
-            <Row>
+        
 
                 <h5 style={{ paddingLeft: "13vh", paddingTop: "4vh" }}>
                     <svg width="38" height="52" viewBox="0 0 55 59" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -18,11 +18,11 @@ export default function CreatepostWild() {
                         <path d="M24.7421 4.73579C26.3579 5.00731 27.4905 17.3841 26.0614 19.2085C24.6321 21.0326 21.2238 23.1002 16.1666 20.5463C11.1094 17.9924 16.0566 3.27648 24.7421 4.73579Z" fill="black" />
                         <path d="M27.5 23.5483C31.35 23.5605 36.5424 28.2407 38.9296 31.2436C41.3168 34.2465 46.0838 39.5965 44.9465 47.7959C44.44 51.4478 40.0631 54.5153 37.5834 54.5153C35.1037 54.5153 29.5639 53.1806 27.8251 53.1806C26.0863 53.1806 20.0674 54.9526 18.0062 54.4463C15.9449 53.94 11.3323 52.4311 10.3779 45.9018C9.4234 39.3725 14.4825 33.9792 17.3298 30.5521C22.55 24.2685 27.5 23.5483 27.5 23.5483Z" fill="black" />
                     </svg> &nbsp;
-                    Create a Lost or found Wild Animal </h5>
+                    Create Profile </h5>
             
-                <Col span={14} xs={7}>
+             
 
-                    <div style={{ paddingBottom: '4vh', paddingTop: "6vh", paddingLeft: "7vh" }}>
+                    <div style={{ paddingBottom: '4vh', paddingTop: "6vh", paddingLeft: "55vh" }}>
                         <Card border="2px" style={{ width: '45rem', borderColor: '#005E2C' }}>
                             <Card.Body>
                                 <Form >
@@ -35,7 +35,7 @@ export default function CreatepostWild() {
 
 
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                <Form.Label >last Location : </Form.Label>
+                                                <Form.Label >Ref: </Form.Label>
                                                 <Form.Control type="text"
 
 
@@ -45,7 +45,7 @@ export default function CreatepostWild() {
                                         <Row>
                                             <Col>
                                                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                    <Form.Label >Date : </Form.Label>
+                                                    <Form.Label >Animals : </Form.Label>
                                                     <Form.Control type="text"
 
                                                         placeholder=" Enter Date .." />
@@ -54,7 +54,7 @@ export default function CreatepostWild() {
 
                                             <Col>
                                                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                    <Form.Label >Time  : </Form.Label>
+                                                    <Form.Label >Age  : </Form.Label>
                                                     <Form.Control type="text"
 
                                                         placeholder=" Enter Time .." />
@@ -88,7 +88,7 @@ export default function CreatepostWild() {
 
 
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                <Form.Label >Contact details : </Form.Label>
+                                                <Form.Label >Health status : </Form.Label>
                                                 <Form.Control type="text"
 
 
@@ -98,7 +98,7 @@ export default function CreatepostWild() {
 
 
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                <Form.Label >Status : </Form.Label>
+                                                <Form.Label >Contact Details : </Form.Label>
                                                 <Form.Control type="text"
 
 
@@ -119,24 +119,6 @@ export default function CreatepostWild() {
 
 
 
-                </Col>
-                <Col>
-                    <div style={{ paddingTop: '5vh', paddingBottom: '1vh', paddingRight: "2vh" }}>
-
-                        <div>
-                            <Card style={{ width: '498px', float: "left", height: "607px", border: "none" }}>
-
-
-                            <img style={{ width: '550px', height: "520px" , paddingRight:"20px" }} src='https://render.fineartamerica.com/images/rendered/default/poster/10/8/break/images/artworkimages/medium/1/lost-animals-series-nr2-zoltan-toth.jpg'></img>
-
-                            </Card>
-                        </div>
-                        <br></br>
-
-
-                    </div></Col>
-
-            </Row>
             <br></br>
             <div style={{ height: "60px", backgroundColor: "#003A1B" }}></div>
         </div>

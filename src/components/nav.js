@@ -20,7 +20,7 @@ export default function Navh() {
           <Nav.Link style={{ color: "#353535", paddingRight: "400px", marginTop: "5px"}} href="/home">Home</Nav.Link>
           <Nav className="me-left">
             <Nav.Link style={{ color: "#353535", marginRight: "20px" }} href="/lostandFoundHome">Lost & Found</Nav.Link>
-            <Nav.Link style={{ color: "#353535", marginRight: "20px" }} href="#features"> Vaccination Details</Nav.Link>
+            <Nav.Link style={{ color: "#353535", marginRight: "20px" }} href="/petprofile"> Pet Profiles</Nav.Link>
             <Nav.Link style={{ color: "#353535", marginRight: "20px" }} href="#pricing">Blog Publish</Nav.Link>
             <Nav.Link style={{ color: "#353535", marginRight: "20px"  }} href="/uploaded">User Uploads</Nav.Link>
             <Nav.Link style={{ color: "#353535", marginRight: "20px" }} href="#pricing">About Us</Nav.Link>
