@@ -1,10 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { Card, Col, Row, Form, Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from '../components/nav'
+import axios from "axios";
+import FileBase from "react-file-base64";
 
 
 export default function CreatepostWild() {
+    const [last_location, setlast_location] = useState(" ");
+    const [breed, setbreed] = useState(" ");
+    const [date, setdate] = useState(" ");
+    const [time, settime] = useState(" ");
+    const [image, setimage] = useState(" ");
+
+
+    const createAt = "now";
+
+    function sendData(e) {
+        e.preventDefault();
+        const newProducr = {
+
+            last_location,
+            breed,
+            date,
+            time,
+            image,
+            createAt: "now"
+        }
+        axios.post("http://localhost:5000/api/wildlife/create", newProducr).then(() => {
+            ("animal added")
+            setlast_location('');
+            setbreed('');
+            setdate('');
+            settime('');
+            setimage('');
+            alert("Animal details added successfully ..");
+            window.location = '/wildlifepost'
+
+        }).catch((err) => {
+            alert("error" + err);
+        })
+    }
+
+    function clearpage() {
+        window.location.reload();
+    }
+
     return (
         <div>
             <Nav></Nav>
@@ -19,13 +60,13 @@ export default function CreatepostWild() {
                         <path d="M27.5 23.5483C31.35 23.5605 36.5424 28.2407 38.9296 31.2436C41.3168 34.2465 46.0838 39.5965 44.9465 47.7959C44.44 51.4478 40.0631 54.5153 37.5834 54.5153C35.1037 54.5153 29.5639 53.1806 27.8251 53.1806C26.0863 53.1806 20.0674 54.9526 18.0062 54.4463C15.9449 53.94 11.3323 52.4311 10.3779 45.9018C9.4234 39.3725 14.4825 33.9792 17.3298 30.5521C22.55 24.2685 27.5 23.5483 27.5 23.5483Z" fill="black" />
                     </svg> &nbsp;
                     Create a Lost or found Wild Animal </h5>
-            
+
                 <Col span={14} xs={7}>
 
                     <div style={{ paddingBottom: '4vh', paddingTop: "6vh", paddingLeft: "7vh" }}>
                         <Card border="2px" style={{ width: '45rem', borderColor: '#005E2C' }}>
                             <Card.Body>
-                                <Form >
+                                <Form onSubmit={sendData} >
                                     <span className="error-message" style={{ color: "blue" }}></span>
 
                                     <br />
@@ -37,6 +78,7 @@ export default function CreatepostWild() {
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                                 <Form.Label >last Location : </Form.Label>
                                                 <Form.Control type="text"
+                                                    onChange={(e) => setlast_location(e.target.value)}
 
 
                                                     placeholder=" Enter last Location .." />
@@ -46,7 +88,8 @@ export default function CreatepostWild() {
                                             <Col>
                                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                                     <Form.Label >Date : </Form.Label>
-                                                    <Form.Control type="text"
+                                                    <Form.Control type="date"
+                                                        onChange={(e) => setdate(e.target.value)}
 
                                                         placeholder=" Enter Date .." />
                                                 </Form.Group>
@@ -56,6 +99,7 @@ export default function CreatepostWild() {
                                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                                     <Form.Label >Time  : </Form.Label>
                                                     <Form.Control type="text"
+                                                        onChange={(e) => settime(e.target.value)}
 
                                                         placeholder=" Enter Time .." />
                                                 </Form.Group>
@@ -67,49 +111,36 @@ export default function CreatepostWild() {
                                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                                     <Form.Label >Breed : </Form.Label>
                                                     <Form.Control type="text"
+                                                        onChange={(e) => setbreed(e.target.value)}
 
                                                         placeholder=" Enter  Breed .." />
                                                 </Form.Group>
                                             </Col>
 
-                          
+
 
                                         </Row>
                                         <Row>
 
                                             <Form.Group controlId="fileupload">
                                                 <Form.Label>Image</Form.Label>
-                                                <Form.Control type="file" multiple />
+                                                <FileBase
+                                                    type="file"
+                                                    multiple={false}
+                                                    onDone={({ base64 }) => {
+                                                        setimage(base64);
+                                                    }}
+                                                />
                                                 <h6>**Please do not exceed the amount of file size 25MB </h6>
 
                                             </Form.Group>
                                         </Row>
-                                        <Row >
 
-
-                                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                <Form.Label >Contact details : </Form.Label>
-                                                <Form.Control type="text"
-
-
-                                                    placeholder=" Enter Contact details .." />
-                                            </Form.Group>
-                                        </Row> <Row >
-
-
-                                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                <Form.Label >Status : </Form.Label>
-                                                <Form.Control type="text"
-
-
-                                                    placeholder=" Enter Status .." />
-                                            </Form.Group>
-                                        </Row>
 
                                     </div>
 
                                     <div style={{ paddingLeft: "40%" }}>
-                                        <Button type="submit" variant="outline-dark" style={{ width: "120px" }}> Save </Button>{' '} {' '}<Button variant="outline-dark" style={{ width: "120px" }} > Clear </Button>
+                                        <Button type="submit" variant="outline-dark" style={{ width: "120px" }}> Save </Button>{' '} {' '}<Button variant="outline-dark" onClick={clearpage} style={{ width: "120px" }} > Clear </Button>
 
                                     </div>
                                 </Form>
@@ -127,7 +158,7 @@ export default function CreatepostWild() {
                             <Card style={{ width: '498px', float: "left", height: "607px", border: "none" }}>
 
 
-                            <img style={{ width: '550px', height: "520px" , paddingRight:"20px" }} src='https://render.fineartamerica.com/images/rendered/default/poster/10/8/break/images/artworkimages/medium/1/lost-animals-series-nr2-zoltan-toth.jpg'></img>
+                                <img style={{ width: '550px', height: "520px", paddingRight: "20px" }} src='https://render.fineartamerica.com/images/rendered/default/poster/10/8/break/images/artworkimages/medium/1/lost-animals-series-nr2-zoltan-toth.jpg'></img>
 
                             </Card>
                         </div>

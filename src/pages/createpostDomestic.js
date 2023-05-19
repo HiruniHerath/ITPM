@@ -1,16 +1,89 @@
-import React from 'react';
+import React, { useState,useEffect } from "react"
 import { Card, Col, Row, Form, Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from '../components/nav'
+import axios from "axios";
+import FileBase from "react-file-base64";
 
 
-export default function createpostDomestic() {
+export default function CreatepostDomestic() {
+    const [currentDateTime, setCurrentDateTime] = useState(new Date());
+    const [last_location_d, setlast_location_d] = useState(" ");
+    const [breed_d, setbreed_d] = useState(" ");
+    const [date_d, setdate_d] = useState(" ");
+    const [time_d, settime_d] = useState(" ");
+    const [color_d, setcolor_d] = useState(" ");
+    const [age_d, setage_d] = useState(" ");
+    const [owner_name_d, setowner_name_d] = useState(" ");
+    const [contact_number_d, setcontact_number_d] = useState(" ");
+    const [image_d, setimage_d] = useState(" ");
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+          setCurrentDateTime(new Date());
+        }, 1000); // Update every second
+    
+        return () => {
+          clearInterval(interval);
+        };
+      }, []);
+      
+      const createAt = currentDateTime.toLocaleString();
+
+
+    function sendData(e) {
+        e.preventDefault();
+        const newProducr = {
+            last_location_d,
+            breed_d,
+            date_d,
+            time_d,
+            color_d,
+            age_d,
+            owner_name_d,
+            contact_number_d,
+            image_d,
+            createAt:'now'
+        }
+        axios.post("http://localhost:5000/api/domestic/create", newProducr).then(() => {
+            ("animal added")
+            setlast_location_d('');
+            setbreed_d('');
+            setdate_d('');
+            settime_d('');
+            setcolor_d('');
+            setage_d('')
+            setowner_name_d('');
+            setcontact_number_d('');
+            setimage_d('');
+            alert("Animal details added successfully ..");
+            window.location='/domesticpost'
+
+        }).catch((err) => {
+            alert("error" + err);
+        })
+    }
+
+    function clearpage() {
+        setlast_location_d('');
+        setbreed_d('');
+        setdate_d('');
+        settime_d('');
+        setcolor_d('');
+        setage_d('')
+        setowner_name_d('');
+        setcontact_number_d('');
+        setimage_d('');
+    }
+
+
+
     return (
         <div>
             <Nav></Nav>
             <Row>
 
-                <h5 style={{ paddingLeft: "13vh", paddingTop: "4vh"}}>
+                <h5 style={{ paddingLeft: "13vh", paddingTop: "4vh" }}>
                     <svg width="38" height="52" viewBox="0 0 55 59" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M43.7086 17.5744C42.0928 17.8459 40.9602 30.2228 42.3897 32.047C43.8191 33.8714 47.4031 37.1325 52.4605 34.5784C57.5172 32.0244 52.3941 16.1148 43.7086 17.5744Z" fill="black" />
                         <path d="M11.3015 17.5548C12.9174 17.8263 14.05 30.2032 12.6207 32.0274C11.1915 33.8518 7.60727 37.1132 2.55013 34.5589C-2.50712 32.0051 2.61613 16.0955 11.3015 17.5548Z" fill="black" />
@@ -24,10 +97,7 @@ export default function createpostDomestic() {
 
                         <div>
                             <Card style={{ width: '498px', float: "right", height: "607px", border: "none" }}>
-
-
-                                <img style={{ width: '550px', height: "520px" , objectFit:"cover"}} src='https://th.bing.com/th/id/R.3ab6956a157d3539865f44cdd2e573b2?rik=Zkzy4J%2bfsoiUyg&pid=ImgRaw&r=0'></img>
-
+                                <img style={{ width: '550px', height: "520px", objectFit: "cover" }} src='https://th.bing.com/th/id/R.3ab6956a157d3539865f44cdd2e573b2?rik=Zkzy4J%2bfsoiUyg&pid=ImgRaw&r=0'></img>
                             </Card>
                         </div>
                         <br></br>
@@ -35,34 +105,46 @@ export default function createpostDomestic() {
 
                     </div></Col>
                 <Col span={14} xs={7}>
-
                     <div style={{ paddingBottom: '4vh', paddingTop: "6vh", paddingLeft: "7vh" }}>
                         <Card border="2px" style={{ width: '45rem', borderColor: '#005E2C' }}>
                             <Card.Body>
-                                <Form >
+                                <Form onSubmit={sendData}>
                                     <span className="error-message" style={{ color: "blue" }}></span>
 
                                     <br />
                                     <div >
 
                                         <Row >
-
-
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                                 <Form.Label >last Location : </Form.Label>
                                                 <Form.Control type="text"
-
-
-                                                    placeholder=" Enter last Location .." />
+                                                    onChange={(e) => setlast_location_d(e.target.value)}
+                                                    placeholder=" Enter last Location .." required/>
+                                            </Form.Group>
+                                        </Row>
+                                        <Row >
+                                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                                <Form.Label >Owner Name: </Form.Label>
+                                                <Form.Control type="text"
+                                                    onChange={(e) => setowner_name_d(e.target.value)}
+                                                    placeholder=" Enter last Location .." required/>
+                                            </Form.Group>
+                                        </Row>
+                                        <Row >
+                                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                                <Form.Label >Age: </Form.Label>
+                                                <Form.Control type="text"
+                                                    onChange={(e) => setage_d(e.target.value)}
+                                                    placeholder=" Enter last Location .." required/>
                                             </Form.Group>
                                         </Row>
                                         <Row>
                                             <Col>
                                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                                     <Form.Label >Date : </Form.Label>
-                                                    <Form.Control type="text"
-
-                                                        placeholder=" Enter Date .." />
+                                                    <Form.Control type="date"
+                                                        onChange={(e) => setdate_d(e.target.value)}
+                                                        placeholder=" Enter Date .." required/>
                                                 </Form.Group>
                                             </Col>
 
@@ -70,8 +152,8 @@ export default function createpostDomestic() {
                                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                                     <Form.Label >Time  : </Form.Label>
                                                     <Form.Control type="text"
-
-                                                        placeholder=" Enter Time .." />
+                                                        onChange={(e) => settime_d(e.target.value)}
+                                                        placeholder=" Enter Time .." required/>
                                                 </Form.Group>
                                             </Col>
 
@@ -81,8 +163,8 @@ export default function createpostDomestic() {
                                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                                     <Form.Label >Breed : </Form.Label>
                                                     <Form.Control type="text"
-
-                                                        placeholder=" Enter  Breed .." />
+                                                        onChange={(e) => setbreed_d(e.target.value)}
+                                                        placeholder=" Enter  Breed .." required />
                                                 </Form.Group>
                                             </Col>
 
@@ -90,8 +172,8 @@ export default function createpostDomestic() {
                                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                                     <Form.Label >Color  : </Form.Label>
                                                     <Form.Control type="text"
-
-                                                        placeholder=" Enter Color .." />
+                                                        onChange={(e) => setcolor_d(e.target.value)}
+                                                        placeholder=" Enter Color .."  required/>
                                                 </Form.Group>
                                             </Col>
 
@@ -100,7 +182,13 @@ export default function createpostDomestic() {
 
                                             <Form.Group controlId="fileupload">
                                                 <Form.Label>Image</Form.Label>
-                                                <Form.Control type="file" multiple />
+                                                <FileBase
+                                                    type="file"
+                                                    multiple={false}
+                                                    onDone={({ base64 }) => {
+                                                        setimage_d(base64);
+                                                    }}
+                                                />
                                                 <h6>**Please do not exceed the amount of file size 25MB </h6>
 
                                             </Form.Group>
@@ -112,18 +200,9 @@ export default function createpostDomestic() {
                                                 <Form.Label >Contact details : </Form.Label>
                                                 <Form.Control type="text"
 
+                                                    onChange={(e) => setcontact_number_d(e.target.value)}
 
-                                                    placeholder=" Enter Contact details .." />
-                                            </Form.Group>
-                                        </Row> <Row >
-
-
-                                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                <Form.Label >Status : </Form.Label>
-                                                <Form.Control type="text"
-
-
-                                                    placeholder=" Enter Status .." />
+                                                    placeholder=" Enter Contact details .."  required/>
                                             </Form.Group>
                                         </Row>
 

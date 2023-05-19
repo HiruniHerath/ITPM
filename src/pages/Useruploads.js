@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { Card, Col, Row, Form, Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import Nav from '../components/nav'
@@ -6,11 +6,133 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import axios from "axios";
 
 export default function Uploaded() {
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [last_location_d, setlast_location_d] = useState(" ");
+  const [breed_d, setbreed_d] = useState(" ");
+  const [date_d, setdate_d] = useState(" ");
+  const [time_d, settime_d] = useState(" ");
+  const [color_d, setcolor_d] = useState(" ");
+  const [age_d, setage_d] = useState(" ");
+  const [owner_name_d, setowner_name_d] = useState(" ");
+  const [contact_number_d, setcontact_number_d] = useState(" ");
+  const [image_d, setimage_d] = useState(" ");
+  const [status_d, setstatus_d] = useState(" ");
+  const [_id, setid] = useState(" ");
+  const createAt = "now";
+
+
+
+
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [domestic, setdomestic] = useState([]);
+  const [search, setSearch] = useState("");
+  const username = "hiruni"
+
+  useEffect(() => {
+
+    //get funtion
+    function getdomestic() {
+      axios.get("http://localhost:5000/api/domestic").then((res) => {
+        setdomestic(res.data.Domestic_animalmodel);
+        console.log(res.data.Domestic_animalmodel);
+      }).catch((err) => {
+        alert(err.message);
+      })
+    }
+
+    getdomestic();
+  }, [])
+
+
+
+  //delete funtion
+  function onDelete(_id) {
+    console.log(_id);
+    axios.delete("http://localhost:5000/api/wildlife/delete/" + _id).then((res) => {
+      alert('Deleted Successfully');
+      window.location.reload();
+    }).catch((err) => {
+      alert(err.message);
+    })
+  }
+
+  const updateUser = (e) => {
+    e.preventDefault();
+    update(e)
+  };
+
+  const handleShow = (
+    last_location_d,
+    date_d,
+    time_d,
+    contact_number_d,
+    _id,
+
+    breed_d,
+    color_d,
+    status_d,
+    age_d,
+    owner_name_d,
+    image_d,
+    createAt
+  ) => {
+    setlast_location_d(last_location_d);
+    setdate_d(date_d);
+    settime_d(time_d);
+    setcontact_number_d(contact_number_d);
+    setid(_id);
+    setbreed_d(breed_d);
+    setcolor_d(color_d);
+    setstatus_d(status_d);
+    setage_d(age_d);
+    setowner_name_d(owner_name_d);
+    setimage_d(image_d);
+    setShow(true);
+
+  }
+
+  function update() {
+    const newTime = {
+      last_location_d,
+      breed_d,
+      date_d,
+      time_d,
+      color_d,
+      status_d,
+      age_d,
+      owner_name_d,
+      contact_number_d,
+      image_d,
+      createAt: 'now'
+    }
+
+    axios.put("http://localhost:5000/api/domestic/edit/" + _id, newTime).then(() => {
+      setlast_location_d('');
+      setbreed_d('');
+      setdate_d('');
+      settime_d('');
+      setcolor_d('');
+      setage_d('')
+      setowner_name_d('');
+      setcontact_number_d('');
+      setimage_d('');
+
+      alert("Updated Successfully");
+      window.location.reload();
+    }).catch((err => {
+      alert(err)
+    }))
+
+
+  }
+
+
+
 
   return (
     <div>
@@ -35,31 +157,66 @@ export default function Uploaded() {
         {/* all user uploaded posts */}
         <Tab eventKey="Uploaded Posts" title="Uploaded Posts" >
           <Row xs={1} md={4} className="g-4" style={{ paddingLeft: "20px", paddingRight: "20px" }}>
-            {Array.from({ length: 8 }).map((_, idx) => (
-              <Col>
-                <Card>
-                  <Card.Img variant="top" src="https://render.fineartamerica.com/images/rendered/default/poster/10/8/break/images/artworkimages/medium/1/lost-animals-series-nr2-zoltan-toth.jpg" />
-                  <Card.Body>
-                    <Card.Text>
-                      <ul>
-                        <li> Last Location : Test</li>
-                        <li>Breed : labrador</li>
-                        <li> Date : Test</li>
-                        <li> Time : Test</li>
-                        <li>Contact no :071XXXXX</li>
-                        <li>Status : PENDING</li>
-                      </ul>
-                      <Row><Col><DropdownButton title="EDIT STATUS" variant="outline-dark" id="bg-nested-dropdown">
-                        <Dropdown.Item eventKey="1">PENDING</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">FOUND</Dropdown.Item>
-                      </DropdownButton></Col>
-                        <Col>   <Button variant="outline-dark" onClick={handleShow} >Edit Post</Button></Col></Row>
-                      <br></br>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
+            {domestic.filter(domestic => {
+              if (domestic.owner_name_d === username) {
+                return domestic
+              }
+              else {
+                return null
+              }
+            }).
+              map((domestic) => {
+
+                return (
+                  <Col key={domestic._id}>
+                    <Card>
+                      <Card.Img variant="top" src={domestic.image_d} style={{ height: '180px' }} alt="animal image" />
+                      <Card.Body>
+
+                        <Card.Text>
+
+                          <ul>
+                            <li> Owner Name : {domestic.owner_name_d}</li>
+                            <li> Last Location : {domestic.last_location_d}</li>
+                            <li>Breed : {domestic.breed_d}</li>
+                            <li> Date : {domestic.date_d}</li>
+                            <li> Time : {domestic.time_d}</li>
+                            <li>Contact no :{domestic.contact_number_d}</li>
+                            <li>Status : {domestic.status_d}</li>
+                          </ul>
+                          <Row>
+                            <Col>
+                              <Button variant="outline-dark" onClick={() => handleShow(
+                                domestic.last_location_d,
+                                domestic.date_d,
+                                domestic.time_d,
+                                domestic.contact_number_d,
+                                domestic._id,
+                                domestic.breed_d,
+                                domestic.color_d,
+                                domestic.age_d,
+                                domestic.owner_name_d,
+                                domestic.image_d,
+                                domestic.createAt,
+                                domestic.status_d
+
+                              )} >Edit Post</Button>
+                            </Col>
+                            <Col>
+                              <Button onClick={() => onDelete(domestic._id)} variant="danger">Delete</Button>
+
+                            </Col>
+                          </Row>
+                          <br></br>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+
+                );
+              })}
+
+
           </Row>
           <Modal show={show} onHide={handleClose} animation={false}>
             <Modal.Header closeButton>
@@ -73,6 +230,8 @@ export default function Uploaded() {
                   <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label >last Location : </Form.Label>
                     <Form.Control type="text"
+                      value={last_location_d}
+                      onChange={(e) => setlast_location_d(e.target.value)}
                       placeholder=" Enter last Location .." />
                   </Form.Group>
                 </Row>
@@ -81,13 +240,19 @@ export default function Uploaded() {
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Label >Date : </Form.Label>
                       <Form.Control type="text"
-                      placeholder=" Enter Date .." />
+                        value={date_d}
+                        onChange={(e) => setdate_d(e.target.value)}
+
+                        placeholder=" Enter Date .." />
                     </Form.Group>
                   </Col>
                   <Col>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Label >Time  : </Form.Label>
                       <Form.Control type="text"
+                        value={time_d}
+                        onChange={(e) => settime_d(e.target.value)}
+
                         placeholder=" Enter Time .." />
                     </Form.Group>
                   </Col>
@@ -96,6 +261,9 @@ export default function Uploaded() {
                   <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label >Contact details : </Form.Label>
                     <Form.Control type="text"
+                      value={contact_number_d}
+                      onChange={(e) => setcontact_number_d(e.target.value)}
+
                       placeholder=" Enter Contact details .." />
                   </Form.Group>
                 </Row>
@@ -103,7 +271,7 @@ export default function Uploaded() {
             </Form></Modal.Body>
             <Modal.Footer>
               <div style={{ paddingLeft: "40%" }}>
-                <Button type="submit" variant="outline-dark" onClick={handleClose} style={{ width: "120px" }}> Save </Button>{' '} {' '}<Button variant="outline-dark" style={{ width: "120px" }} > Clear </Button>
+                <Button type="submit" variant="outline-dark" onClick={(e) => updateUser(e)} style={{ width: "120px" }}> Save </Button>{' '} {' '}<Button variant="outline-dark" style={{ width: "120px" }} > Clear </Button>
               </div>
             </Modal.Footer>
           </Modal>
