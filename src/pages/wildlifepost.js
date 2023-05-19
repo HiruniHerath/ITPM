@@ -76,7 +76,7 @@ export default function Wildlifepost() {
           if (search === "") {
             return wildlife
           }
-          else if (wildlife.breed_d.toLowerCase().includes(search.toLowerCase())) {
+          else if (wildlife.breed.toLowerCase().includes(search.toLowerCase())) {
             return wildlife
           }
         }).
@@ -98,12 +98,6 @@ export default function Wildlifepost() {
                         <li>Status : {wildlife.status}</li>
                       </ul>
                       <Row>
-                        <Col>
-                          <DropdownButton title="EDIT STATUS" variant="outline-dark" id="bg-nested-dropdown">
-                            <Dropdown.Item eventKey="1">PENDING</Dropdown.Item>
-                            <Dropdown.Item eventKey="2">FOUND</Dropdown.Item>
-                          </DropdownButton>
-                        </Col>
                         <Col>
                           <Button onClick={() => onDelete(wildlife._id)} variant="danger">Delete</Button>
 

@@ -88,11 +88,6 @@ export default function Domesticepost() {
                         <li>Contact no :{domestic.contact_number_d}</li>
                         <li>Status : {domestic.status_d}</li>
                       </ul>
-                      <DropdownButton title="EDIT STATUS" variant="outline-dark" id="bg-nested-dropdown">
-                        <Dropdown.Item eventKey="1">PENDING</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">FOUND</Dropdown.Item>
-                      </DropdownButton>
-
                     </Card.Text>
                   </Card.Body>
                 </Card>

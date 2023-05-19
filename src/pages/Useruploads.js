@@ -72,10 +72,8 @@ export default function Uploaded() {
     time_d,
     contact_number_d,
     _id,
-
     breed_d,
     color_d,
-    status_d,
     age_d,
     owner_name_d,
     image_d,
@@ -88,30 +86,42 @@ export default function Uploaded() {
     setid(_id);
     setbreed_d(breed_d);
     setcolor_d(color_d);
-    setstatus_d(status_d);
     setage_d(age_d);
     setowner_name_d(owner_name_d);
     setimage_d(image_d);
     setShow(true);
-
+    console.log(_id)
   }
 
   function update() {
     const newTime = {
       last_location_d,
-      breed_d,
       date_d,
       time_d,
+      contact_number_d,
+      _id,
+      breed_d,
       color_d,
-      status_d,
       age_d,
       owner_name_d,
-      contact_number_d,
       image_d,
-      createAt: 'now'
+      createAt
     }
 
-    axios.put("http://localhost:5000/api/domestic/edit/" + _id, newTime).then(() => {
+    console.log(newTime);
+    console.log(last_location_d,
+      date_d,
+      time_d,
+      contact_number_d,
+      _id,
+      breed_d,
+      color_d,
+      age_d,
+      owner_name_d,
+      image_d,
+      createAt)
+
+    axios.put("http://localhost:5000/api/domestic//edit/" + _id, newTime).then(() => {
       setlast_location_d('');
       setbreed_d('');
       setdate_d('');
@@ -198,7 +208,6 @@ export default function Uploaded() {
                                 domestic.owner_name_d,
                                 domestic.image_d,
                                 domestic.createAt,
-                                domestic.status_d
 
                               )} >Edit Post</Button>
                             </Col>

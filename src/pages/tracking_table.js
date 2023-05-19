@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/Table';
 import Modal from 'react-bootstrap/Modal';
 import { Card, Col, Row, Form, Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
-import Nav from '../components/nav'
+import Navadmin from '../components/navadmin'
 import homepng from '../images/home.png'
 
 
@@ -13,7 +13,9 @@ export default function Tracking_table() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
     return (
+      <><Navadmin></Navadmin>
         <div >  
+
             <div  style={{paddingLeft:"20px" , paddingRight:"20px"}}>
              <h3> 
                 <br></br>
@@ -116,5 +118,6 @@ export default function Tracking_table() {
 
 
         </div>
+        </>
     );
 };
