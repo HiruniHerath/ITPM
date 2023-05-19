@@ -1,11 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from "react"
 import { Card, Col, Row, Form, Button } from 'react-bootstrap';
 import Nav from '../components/nav'
 import CountUp from 'react-countup';
+import axios from "axios";
 
 
 
-export default function lostandfoundhome() {
+export default function Lostandfoundhome() {
+
+  const [wildlife, setwildlife] = useState([]);
+  const [domestic, setdomestic] = useState([]);
+  const [count, setcount] = useState("");
+  const [wcount, setwcount] = useState("");
+
+
+  useEffect(() => {
+
+    //get funtion
+    function getdomestic() {
+      axios.get("http://localhost:5000/api/domestic").then((res) => {
+        setdomestic(res.data.Domestic_animalmodel);
+        console.log(res.data.Domestic_animalmodel);
+        setcount(res.data.Domestic_animalmodel.length);
+
+      }).catch((err) => {
+        alert(err.message);
+      })
+    }
+    function getwildlife() {
+      axios.get("http://localhost:5000/api/wildlife").then((res) => {
+        setwildlife(res.data.Wildlife_animalmodel);
+        console.log(res.data.Wildlife_animalmodel);
+        setwcount(res.data.Wildlife_animalmodel.length);
+      }).catch((err) => {
+        alert(err.message);
+      })
+    }
+
+    getwildlife();
+    getdomestic();
+  }, [])
   return (
     <div>
       <Nav></Nav>
@@ -36,44 +70,16 @@ export default function lostandfoundhome() {
         <Card style={{ height: "150px" }} >
           <Row style={{ paddingLeft: "100px", paddingRight: "100px" }}>
             <Col style={{ paddingTop: "50px" }}>
-              Lost Wildlife Animals
-              <CountUp start={0} end={100} delay={0}>
-                {({ countUpRef }) => (
-                  <div>
-                    <span style={{ fontSize: "32px", paddingLeft: "40px" }} ref={countUpRef} />
-                  </div>
-                )}
-              </CountUp></Col>
+            <center> Lost Wildlife Animals</center>
+              <center><h1>{wcount}</h1></center>
+            </Col>
             <Col style={{ paddingTop: "50px" }}>
-              Lost Domestic Animals
-              <CountUp start={0} end={90} delay={0}>
-                {({ countUpRef }) => (
-                  <div>
-                    <span style={{ fontSize: "32px" }} ref={countUpRef} />
-                  </div>
-                )}
-              </CountUp></Col>
-            <Col style={{ paddingTop: "50px" }}>
-              Found Wildlife Animals
-              <CountUp start={0} end={50} delay={0}>
-                {({ countUpRef }) => (
-                  <div>
-                    <span style={{ fontSize: "32px", paddingLeft: "40px" }} ref={countUpRef} />
-                  </div>
-                )}
-              </CountUp></Col>
-            <Col style={{ paddingTop: "50px" }}>
-              Found Domestic Animals
-              <CountUp start={0} end={87} delay={0}>
-                {({ countUpRef }) => (
-                  <div>
-                    <span style={{ fontSize: "32px", paddingLeft: "40px" }} ref={countUpRef} />
-                  </div>
-                )}
-              </CountUp></Col>
+            <center> Lost Domestic Animals</center>
+              <center><h1>{count}</h1></center>
+            </Col>
           </Row>
         </Card>
-        </div>
+      </div>
       <br></br>
       <div style={{ height: "60px", backgroundColor: "#003A1B" }}></div>
     </div>
